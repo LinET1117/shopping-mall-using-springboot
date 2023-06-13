@@ -3,7 +3,11 @@ package com.linet.shoppingmallusingspringboot.service;
 import com.linet.shoppingmallusingspringboot.dto.ProductRequest;
 import com.linet.shoppingmallusingspringboot.model.Product;
 
+import java.util.List;
+
 public interface ProductService {
+
+    List<Product> getProducts();
 
     Product getProductById(Integer productId);
 
