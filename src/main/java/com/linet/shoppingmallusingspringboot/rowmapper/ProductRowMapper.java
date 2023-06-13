@@ -1,5 +1,6 @@
 package com.linet.shoppingmallusingspringboot.rowmapper;
 
+import com.linet.shoppingmallusingspringboot.constant.ProductCategory;
 import com.linet.shoppingmallusingspringboot.model.Product;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -16,7 +17,9 @@ public class ProductRowMapper implements RowMapper<Product> {
 
         product. setProductName(resultSet.getString("product_name"));
 
-        product. setCategory(resultSet.getString("category"));
+        String categoryStr = resultSet.getString("category");
+        ProductCategory category = ProductCategory.valueOf(categoryStr) ;
+        product.setCategory(category);
 
         product. setImageUrl(resultSet.getString("image_url"));
 
