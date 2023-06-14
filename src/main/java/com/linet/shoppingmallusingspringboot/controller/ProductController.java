@@ -1,6 +1,7 @@
 package com.linet.shoppingmallusingspringboot.controller;
 
 import com.linet.shoppingmallusingspringboot.constant.ProductCategory;
+import com.linet.shoppingmallusingspringboot.dto.ProductQueryParams;
 import com.linet.shoppingmallusingspringboot.dto.ProductRequest;
 import com.linet.shoppingmallusingspringboot.model.Product;
 import com.linet.shoppingmallusingspringboot. service. ProductService;
@@ -22,7 +23,11 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProducts(@RequestParam(required = false) ProductCategory category,
                                                      @RequestParam(required = false) String search) {
 
-        List<Product> productList = productService.getProducts(category, search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category) ;
+        productQueryParams.setSearch(search) ;
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
