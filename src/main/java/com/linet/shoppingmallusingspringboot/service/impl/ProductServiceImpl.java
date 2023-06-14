@@ -1,5 +1,6 @@
 package com.linet.shoppingmallusingspringboot.service.impl;
 
+import com.linet.shoppingmallusingspringboot.constant.ProductCategory;
 import com.linet.shoppingmallusingspringboot.dao.ProductDao;
 import com.linet.shoppingmallusingspringboot.dto.ProductRequest;
 import com.linet.shoppingmallusingspringboot.model.Product;
@@ -16,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category, String search) {
+        return productDao.getProducts(category, search);
     }
 
     @Override
