@@ -31,7 +31,7 @@ public class ProductController {
                                             @RequestParam(defaultValue = "created_date") String orderBy,
                                             @RequestParam(defaultValue = "desc")String sort,
 
-                                            @RequestParam(defaultValue = "8") @Max(1000) @Min(0) Integer limit,
+                                            @RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit,
                                             @RequestParam(defaultValue = "0") @Min(0)Integer offset)
     {
         ProductQueryParams productQueryParams = new ProductQueryParams();
