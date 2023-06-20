@@ -1,6 +1,7 @@
 package com.linet.shoppingmallusingspringboot.service.impl;
 
 import com.linet.shoppingmallusingspringboot.dao.UserDao;
+import com.linet.shoppingmallusingspringboot.dto.UserLoginRequest;
 import com.linet.shoppingmallusingspringboot.dto.UserRegisterRequest;
 import com.linet.shoppingmallusingspringboot.model.User;
 import com.linet.shoppingmallusingspringboot.service.UserService;
@@ -35,5 +36,23 @@ public class UserServiceImpl implements UserService {
         }
             // create email
             return userDao. createUser(userRegisterRequest) ;
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+
+        if (user == null) {
+            log.warn("該 email {} 尚未註冊", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        if (user.getPassword().equals(userLoginRequest.getPassword())) {
+            return user;
+
+        } else {
+            log.warn("email {} 密碼不正確!", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus .BAD_REQUEST) ;
+        }
     }
 }
