@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 @Component
@@ -29,12 +30,17 @@ public class UserServiceImpl implements UserService {
     public Integer register(UserRegisterRequest userRegisterRequest) {
 
         User user = userDao.getUserByEmail(userRegisterRequest.getEmail());
-            //check email
+            // Check email
         if (user != null) {
             log.warn("該 email {} 已被註冊!", userRegisterRequest.getEmail()) ;
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST) ;
         }
-            // create email
+
+            // Use MD5 to generate hash value of password
+            String hashedPassword = DigestUtils.md5DigestAsHex(userRegisterRequest.getPassword().getBytes());
+            userRegisterRequest.setPassword(hashedPassword) ;
+
+             // Create email
             return userDao. createUser(userRegisterRequest) ;
     }
 
@@ -43,13 +49,18 @@ public class UserServiceImpl implements UserService {
 
         User user = userDao.getUserByEmail(userLoginRequest.getEmail());
 
+        // Check if user exists
         if (user == null) {
             log.warn("該 email {} 尚未註冊", userLoginRequest.getEmail());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        if (user.getPassword().equals(userLoginRequest.getPassword())) {
-            return user;
 
+        // Use MD5 to generate the hash value of the password
+        String hashedPassword = DigestUtils.md5DigestAsHex(userLoginRequest.getPassword().getBytes());
+
+        // Check if the password is correct
+        if (user.getPassword().equals(hashedPassword)) {
+            return user;
         } else {
             log.warn("email {} 密碼不正確!", userLoginRequest.getEmail());
             throw new ResponseStatusException(HttpStatus .BAD_REQUEST) ;
