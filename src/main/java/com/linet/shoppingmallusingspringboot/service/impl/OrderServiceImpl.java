@@ -4,6 +4,7 @@ import com.linet.shoppingmallusingspringboot.dao.OrderDao;
 import com.linet.shoppingmallusingspringboot.dao.ProductDao;
 import com.linet.shoppingmallusingspringboot.dto.BuyItem;
 import com.linet.shoppingmallusingspringboot.dto.CreateOrderRequest;
+import com.linet.shoppingmallusingspringboot.model.Order;
 import com.linet.shoppingmallusingspringboot.model.OrderItem;
 import com.linet.shoppingmallusingspringboot.model.Product;
 import com.linet.shoppingmallusingspringboot.service.OrderService;
@@ -22,6 +23,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId) ;
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order. setOrderItemList (orderItemList) ;
+
+        return order;
+
+    }
 
     @Transactional
     @Override
