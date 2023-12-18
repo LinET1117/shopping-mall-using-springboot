@@ -120,19 +120,6 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void createOrderItems(Integer orderId, List<OrderItem> orderItemList) {
-        // 使用 for loop 一條條 sql 加入數據，效率低
-//        for (OrderItem orderItem : orderItemList) {
-
-//            String sql = "INSERT INTO order_item(order_id, product_id, quantity, amount)" +
-//                     "VALUES (:orderId, :productId, :quantity, :amount)";
-//
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("orderId", orderId);//           map.put("productId", orderItem.getProductId());
-//            map.put("quantity", orderItem.getQuantity());
-//            map.put("amount", orderItem.getAmount());
-//
-//            namedParameterJdbcTemplate.update(sql, map);
-//        }
 
         // 使用 batchUpdate 一次性加入數據，效率高
         String sql = "INSERT INTO order_item(order_id, product_id, quantity, amount)" +
